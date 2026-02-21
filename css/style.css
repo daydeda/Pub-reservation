@@ -1,0 +1,54 @@
+@layer components {
+        .btn {
+            @apply px-4 py-2 rounded font-bold transition-colors duration-200 cursor-pointer inline-block text-center border-none no-underline;
+            background-color: theme('colors.primary');
+            color: theme('colors.darker');
+        }
+        .btn:hover {
+            background-color: #e6c200;
+        }
+        .btn:disabled {
+            @apply opacity-50 cursor-not-allowed bg-gray-500 text-gray-300;
+        }
+        .input-field {
+            @apply w-full p-2 rounded bg-surface border border-gray-700 text-white focus:outline-none focus:border-secondary transition-colors;
+        }
+        body {
+            @apply bg-darker text-white font-sans;
+        }
+        /* Map Markers */
+        .table-marker {
+            @apply absolute w-10 h-10 rounded-full flex items-center justify-center font-bold text-white cursor-pointer transition-all duration-200 transform -translate-x-1/2 -translate-y-1/2;
+        }
+        .table-marker:hover {
+            @apply scale-125 shadow-[0_0_10px_rgba(0,255,65,0.7)];
+        }
+        .table-marker.available {
+            @apply bg-green-500;
+        }
+        .table-marker.reserved {
+            @apply bg-red-500 cursor-not-allowed;
+        }
+        .table-marker.incompatible {
+            @apply bg-gray-500 cursor-not-allowed;
+        }
+        .table-marker.selected {
+            @apply bg-secondary shadow-[0_0_15px_rgba(0,255,65,0.9)] text-black border-2 border-white;
+        }
+        .table-marker.vip {
+            @apply border-4 border-yellow-400;
+        }
+        .stage-marker {
+            @apply absolute bg-gray-800 text-gray-400 border border-gray-600 rounded flex items-center justify-center font-bold tracking-widest uppercase;
+            width: 30%;
+            height: 60px;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 5;
+        }
+    }
