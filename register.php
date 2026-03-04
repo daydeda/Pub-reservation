@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // ---- Check if exists in users or admins ----
         // 1. ตรวจสอบว่าชื่อผู้ใช้หรืออีเมลนี้มีคนใช้งานไปแล้วหรือยัง (Verify if username or email already exists in DB)
         // โดยเช็คทั้งจากตารางลูกค้า (users) และผู้ดูแลระบบ (admins) (Checking across both users and admins tables using UNION)
-        $stmt = $pdo->prepare("SELECT username FROM users WHERE username = ? OR email = ? UNION SELECT username FROM admins WHERE username = ?");
+        $stmt = $pdo->prepare("SELECT username FROM users WHERE username = ? OR email = ? UNION SELECT ad_username FROM admins WHERE ad_username = ?");
         // สั่งประมวลผลคำสั่ง SQL โดยส่งค่าพารามิเตอร์ 3 ตัว (Execute query binding the 3 placeholders)
         $stmt->execute([$username, $email, $username]);
         
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // ---- ดำเนินการเพิ่มผู้ใช้งานลงระบบ ----
             // 2. ถ้าไม่ซ้ำ ก็ทำการเตรียม SQL สำหรับเพิ่มข้อมูลลงตาราง users (Prepare SQL query to INSERT new user)
-            $sql = "INSERT INTO users (username, email, password, full_name, phone_number) VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO users (username, email, user_password, full_name, phone_number) VALUES (?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
             
             // หากระบบสั่งรันคำสั่ง SQL สร้างข้อมูลได้สำเร็จ (Execute query, if successful proceed inside)

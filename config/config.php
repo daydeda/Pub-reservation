@@ -1,15 +1,15 @@
 <?php
-$host = '127.0.0.1';
+$host = 'localhost';
 $db   = 'pub_reservation';
 // ชื่อผู้ใช้งานจัดการดาต้าเบส (Database root username)
 $user = 'root';
 // รหัสผ่าน ของ XAMPP ส่วนมากปล่อยว่าง (Password for the DB user, default empty for XAMPP on Windows/Mac mostly)
-$pass = ''; // Default for many local setups, user might need to change this
+$pass = ''; // ← PUT YOUR MySQL ROOT PASSWORD HERE if your server requires one
 // เลือกรหัสความเข้ากันได้ภาษา เพื่อให้แสดงผลและเก็บค่า Text ภาษาไทย/อิโมจิได้ถูก (Specify Character set encoding to support emojis and Thai)
 $charset = 'utf8mb4';
 
 // เรียบเรียง String (Connection String Format) ส่งไปยัง PDO class (Format the DSN string required by PDO)
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$dsn = "mysql:unix_socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock;dbname=$db;charset=$charset";
 // ปรับแต่งการยิง Error ตามมาตรฐานของ PHP (Setup robust PDO options)
 $options = [
     // กำหนดให้เมื่อเกิดปัญหา ระบบจะโยนแจ้งเตือนโผงผางออกมาเพื่อให้นักพัฒนาแก้ไข (Throw fatal exceptions on error)

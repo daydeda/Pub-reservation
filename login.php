@@ -34,15 +34,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // ---- 1. Check Admins Table First (ตรวจสอบตารางแอดมินก่อน) ----
         // ค้นหา username นี้จากตารางผู้ดูแลระบบ (Search for the username in the admins table)
-        $stmt = $pdo->prepare("SELECT * FROM admins WHERE username = ?");
+        $stmt = $pdo->prepare("SELECT * FROM admins WHERE ad_username = ?");
         $stmt->execute([$username]);
         $admin = $stmt->fetch(); // ดึงข้อมูลผู้ใช้งานถ้ามีข้อมูลตรง (Fetch admin data if found)
 
         // หากเจอแอดมิน และรหัสผ่านถูกต้อง (If admin exists and submitted password matches the database record)
-        if ($admin && $password === $admin['password']) {
-            $_SESSION['user_id'] = $admin['id']; // บันทึกไอดีผู้ใช้ลง Session (Save User ID in session)
+        if ($admin && $password === $admin['ad_password']) {
+            $_SESSION['user_id'] = $admin['admin_id']; // บันทึกไอดีผู้ใช้ลง Session (Save User ID in session)
             $_SESSION['role'] = 'admin'; // ระบุสิทธิ์ (Role) ว่าเป็นผู้ดูแลระบบ (Assign 'admin' role)
-            $_SESSION['username'] = $admin['username']; // บันทึกชื่อเพื่อเอาไปแสดงผล (Save username for display)
+            $_SESSION['username'] = $admin['ad_username']; // บันทึกชื่อเพื่อเอาไปแสดงผล (Save username for display)
             // พาผู้ใช้แอดมินเข้าไปหน้าผังหลังบ้าน (Redirect the admin to the admin dashboard)
             header("Location: admin/index.php"); 
             exit(); // หยุดการประมวลผลหลังสั่งหน้า Redirection (Terminate script execution smoothly)
@@ -55,8 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $stmt->fetch(); // ดึงข้อมูลลูกค้าถ้ามี (Fetch user details if found)
 
         // ถ้ารหัสผ่านลูกค้าถูกต้อง (If standard user exists and password is correct)
-        if ($user && $password === $user['password']) {
-            $_SESSION['user_id'] = $user['id']; // บันทึกไอดี (Save User ID in session)
+        if ($user && $password === $user['user_password']) {
+            $_SESSION['user_id'] = $user['user_id']; // บันทึกไอดี (Save User ID in session)
             $_SESSION['role'] = 'general'; // กำหนดระดับสิทธิ์ลูกค้าทั่วไป Default role for users table
             $_SESSION['username'] = $user['username']; // บันทึกชื่อ (Save username in session)
             // ดึงผู้ใช้งานเข้าหน้าต่างเว็บไซต์หน้าแรก (Redirect regular user to the homepage)
