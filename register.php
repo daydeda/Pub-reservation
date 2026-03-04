@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- กรอบครอบคลุมเนื้อหากล่องสมัครสมาชิก (Main flex container to center the registration box) -->
     <div class="container mx-auto px-4 py-8 flex-grow flex items-center justify-center">
         <!-- กล่องสำหรับป้อนข้อมูลแบบฟอร์มผู้ใช้งาน (Registration form card box) -->
-        <div class="bg-surface p-8 rounded-lg shadow-2xl w-full max-w-lg border border-gray-800">
+        <div class="bg-[#fdf8f5] p-8 rounded-lg shadow-2xl w-full max-w-lg border border-gray-800">
             <h2 class="text-3xl font-bold text-center text-primary mb-6">Create Account</h2>
             
             <!-- กรณีถ้าตรวจพบข้อผิดพลาด เช่น อีเมลซ้ำ ให้แสดงกล่องตกใจเตือน (Condition to display error alert box) -->
@@ -96,28 +96,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- ช่องกรอกชื่อผู้ใช้สำหรับเข้าระบบ (Input for Username) -->
                     <div>
-                        <label class="block text-gray-400 mb-1">Username</label>
+                        <label class="block text-gray-600 mb-1">Username</label>
                         <input type="text" name="username" required class="input-field">
                     </div>
                     <!-- ช่องกรอกชื่อจริงและนามสกุล (Input for Full Name) -->
                     <div>
-                        <label class="block text-gray-400 mb-1">Full Name</label>
+                        <label class="block text-gray-600 mb-1">Full Name</label>
                         <input type="text" name="full_name" required class="input-field">
                     </div>
                 </div>
                 <!-- ช่องสำหรับอีเมลผู้ใช้งาน (Input for Email address) -->
                 <div>
-                    <label class="block text-gray-400 mb-1">Email</label>
+                    <label class="block text-gray-600 mb-1">Email</label>
                     <input type="email" name="email" required class="input-field">
                 </div>
                 <!-- ช่องสำหรับเบอร์มือถือ (ตัวเลือกเสริมไม่ต้องกรอก็ได้ถ้ากำหนดไว้) (Input for Phone number, optional) -->
                 <div>
-                    <label class="block text-gray-400 mb-1">Phone Number</label>
+                    <label class="block text-gray-600 mb-1">Phone Number</label>
                     <input type="text" name="phone" class="input-field">
                 </div>
                 <!-- ช่องกรอกรหัสผ่าน (Input for password credentials) -->
                 <div>
-                    <label class="block text-gray-400 mb-1">Password</label>
+                    <label class="block text-gray-600 mb-1">Password</label>
                     <input type="password" name="password" required class="input-field">
                 </div>
                 <!-- ปุ่มส่งคำขอยืนยันการสมัคร (Submit Registration Button) -->
