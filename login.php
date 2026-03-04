@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 <head>
     <!-- กำหนดชื่อไตเติ้ลให้กับหน้านี้ (Set specific page title) -->
-    <?php $page_title = 'Login - NightOwl Pub'; ?>
+    <?php $page_title = 'Login'; ?>
     <!-- ดึงข้อมูล head แบบรวมมิตร (Include common HTML Head elements) -->
     <?php include 'includes/head.php'; ?>
 </head>
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <nav class="bg-surface border-b border-gray-800 p-4">
         <div class="container mx-auto flex justify-between items-center">
             <!-- โลโก้เว็บไซต์ (Website string Logo linkage) -->
-            <a href="index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">NightOwl Pub</a>
+            <a href="index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">MaoHub</a>
             <ul class="flex space-x-6">
                 <!-- ปุ่มสลับไปหน้าสมัครสมาชิก (Link to jump to registration page) -->
                 <li><a href="register.php" class="text-gray-300 hover:text-secondary transition-colors">Register</a></li>
@@ -94,43 +94,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- พื้นที่แสดงกล่องรวมส่วนการล็อกอิน (Main layout wrapper for Login form box) -->
     <div class="container mx-auto px-4 py-8 flex-grow flex items-center justify-center">
         <!-- กล่องสำหรับป้อนข้อมูลผู้ใช้ (Login form container) -->
-        <div class="bg-surface p-8 rounded-lg shadow-2xl w-full max-w-md border border-gray-800">
+        <div class="bg-[#fdf8f5] p-8 rounded-lg shadow-2xl w-full max-w-md border border-primary">
             <h2 class="text-3xl font-bold text-center text-primary mb-6">Member Login</h2>
             
             <!-- หากมีข้อผิดพลาดหรือข้อความแจ้งเตือน ให้แสดงให้ลูกค้าเห็นตรงนี้ (Display alert box if a message exists) -->
             <?php if($message): ?>
                 <!-- ตรวจสอบคลาสของกล่องข้อความเพื่อระบายสีเขียว(สำเร็จ) หรือ สีแดง (ผิดพลาด) 
                      (Toggle widget styles conditionally between success/error formats) -->
-                <div class="mb-4 p-3 rounded <?php echo ($msg_class == 'success') ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200'; ?>">
+                <div class="mb-4 p-3 rounded <?php echo ($msg_class == 'success') ? 'bg-green-500 text-gray-900 border border-green-600' : 'bg-red-500 text-gray-900 border border-red-600'; ?>">
                     <!-- แสดงเนื้อหาของข้อความอย่างปลอดภัยป้องกัน XSS (Display html-encoded message string) -->
-                    <?php echo htmlspecialchars($message); ?>
+                    <span class="font-medium"><?php echo htmlspecialchars($message); ?></span>
                 </div>
             <?php endif; ?>
             
             <!-- ฟอร์มเข้าสู่ระบบ กำหนด method แบบ POST (Defining HTML Form posting logic) -->
             <form method="POST" action="" class="space-y-4">
                 <div>
-                    <label class="block text-gray-400 mb-1">Username</label>
+                    <label class="block text-darker font-bold mb-1">Username</label>
                     <input type="text" name="username" required class="input-field">
                 </div>
                 <div>
-                    <label class="block text-gray-400 mb-1">Password</label>
+                    <label class="block text-darker font-bold mb-1">Password</label>
                     <input type="password" name="password" required class="input-field">
                 </div>
                 <!-- ปุ่มส่งฟอร์ม (Submit Button) -->
-                <button type="submit" class="btn w-full py-3 mt-4 text-darker font-bold text-lg hover:shadow-[0_0_15px_rgba(255,215,0,0.5)] transition-shadow">Login</button>
+                <button type="submit" class="btn w-full py-3 mt-4 text-white font-bold text-lg bg-primary hover:bg-secondary transition-colors shadow-lg">Login</button>
             </form>
 
-            <p class="text-center mt-6 text-gray-400">
+            <p class="text-center mt-6 text-dark font-medium">
                 <!-- หากยังไม่มีบัญชีให้กดไปหน้าลงสมัครสมาชิก (No account? provide link to Register instead) -->
-                No account? <a href="register.php" class="text-secondary hover:text-primary transition-colors underline">Register here</a>
+                No account? <a href="register.php" class="text-secondary hover:text-primary transition-colors underline font-bold">Register here</a>
             </p>
         </div>
     </div>
     
-    <!-- ส่วนของตอนท้ายของเว็บไซต์ (Website Footer section) -->
-    <footer class="bg-black py-6 text-center text-gray-500 text-sm border-t border-gray-900">
-        &copy; 2026 NightOwl Pub. All rights reserved.
-    </footer>
+    <!-- แทรก Footer template (Include the shared footer template) -->
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>

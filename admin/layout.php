@@ -24,7 +24,7 @@ if (!$pub) {
 }
 
 // Handle save layout (POST JSON)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
     $inputJSON = file_get_contents('php://input');
     $input = json_decode($inputJSON, TRUE);
     if (isset($input['tables']) && is_array($input['tables'])) {
@@ -81,7 +81,7 @@ $page_title = 'Table Layout - ' . htmlspecialchars($pub['pub_name']);
 <body class="bg-darker text-white font-sans flex flex-col min-h-screen">
     <nav class="bg-surface border-b border-gray-800 p-4">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">NightOwl Admin</a>
+            <a href="index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">MaoHub Admin</a>
             <ul class="flex space-x-6">
                 <li><a href="index.php" class="text-gray-300 hover:text-white transition-colors">Reservations</a></li>
                 <li><a href="pubs.php" class="text-secondary font-bold transition-colors">Pubs</a></li>
@@ -121,10 +121,10 @@ $page_title = 'Table Layout - ' . htmlspecialchars($pub['pub_name']);
                 </div>
 
                 <!-- Tables Layer -->
-                <div id="tablesLayer" class="w-full h-full relative">
+                <div id="tablesLayer" class="w-full h-full absolute inset-0">
                     <?php foreach($tables as $t): ?>
                         <div class="table-marker draggable-table bg-green-500 <?php echo ($t['type'] === 'vip') ? 'vip border-4 border-yellow-400' : ''; ?>" 
-                             style="left: <?php echo $t['coord_x']; ?>%; top: <?php echo $t['coord_y']; ?>%; position: absolute; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;"
+                             style="left: <?php echo $t['coord_x']; ?>%; top: <?php echo $t['coord_y']; ?>%;"
                              data-id="<?php echo $t['table_id']; ?>"
                              data-x="<?php echo $t['coord_x']; ?>"
                              data-y="<?php echo $t['coord_y']; ?>">

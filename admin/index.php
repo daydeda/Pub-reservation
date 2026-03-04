@@ -47,7 +47,7 @@ $reservations = $stmt->fetchAll();
 <html lang="en">
 <head>
     <!-- กำหนดชื่อไตเติ้ลให้กับหน้าแอดมิน (Set static admin dashboard title) -->
-    <?php $page_title = 'Admin Dashboard - NightOwl Pub'; ?>
+    <?php $page_title = 'Admin Dashboard'; ?>
     <!-- ดึงไฟล์ HTML Head กลางแบบย้อนถอยหน้าไปอีก 1 Folder (Reference to global head HTML file structure relative to root) -->
     <?php include '../includes/head.php'; ?>
 </head>
@@ -56,7 +56,7 @@ $reservations = $stmt->fetchAll();
     <nav class="bg-surface border-b border-gray-800 p-4">
         <div class="container mx-auto flex justify-between items-center">
             <!-- โลโก้แอดมินเชื่อมลิงก์กลับมาหน้าหลักนี้ (Admin Logo text string linkage backwards) -->
-            <a href="../index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">NightOwl Admin</a>
+            <a href="../index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">MaoHub Admin</a>
             <ul class="flex space-x-6">
                 <!-- เนื่องจากอยู่หน้านี้ จึงใช้ตัวอักษรหนา(bold) และสีเด่นแทนตัวอื่น (Highlight 'Reservations' to indicate current scope) -->
                 <li><a href="index.php" class="text-secondary font-bold transition-colors">Reservations</a></li>
@@ -76,55 +76,54 @@ $reservations = $stmt->fetchAll();
         <h1 class="text-3xl font-bold mb-8 text-primary border-l-4 border-primary pl-4">Reservation Management</h1>
         
         <!-- กรอบสำหรับทำให้ตารางสามารถเลื่อนซ้ายขวาได้หากเปิดในมือถือ (Scrollable outer container matching responsive layout rules) -->
-        <div class="overflow-x-auto bg-surface rounded-lg shadow-lg border border-gray-800">
+        <div class="overflow-x-auto bg-[#fdf8f5] rounded-lg shadow-lg border border-primary">
             <!-- แท็กคำสั่งสร้างตารางแสดงข้อมูลบรรทัดต่างๆ (HTML native table block initialization) -->
             <table class="w-full text-left border-collapse">
                 <!-- แถวหัวตาราง (Table Head headers) -->
-                <thead class="bg-gray-800 text-primary uppercase text-sm font-semibold">
+                <thead class="bg-secondary text-white uppercase text-sm font-semibold">
                     <tr>
-                        <th class="p-4 border-b border-gray-700">ID</th>
-                        <th class="p-4 border-b border-gray-700">Pub / Table</th>
-                        <th class="p-4 border-b border-gray-700">User</th>
-                        <th class="p-4 border-b border-gray-700">Date/Time</th>
-                        <th class="p-4 border-b border-gray-700">Guests</th>
-                        <th class="p-4 border-b border-gray-700">Status</th>
-                        <th class="p-4 border-b border-gray-700">Actions</th>
+                        <th class="p-4 border-b border-primary/40">ID</th>
+                        <th class="p-4 border-b border-primary/40">Pub / Table</th>
+                        <th class="p-4 border-b border-primary/40">User</th>
+                        <th class="p-4 border-b border-primary/40">Date/Time</th>
+                        <th class="p-4 border-b border-primary/40">Guests</th>
+                        <th class="p-4 border-b border-primary/40">Status</th>
+                        <th class="p-4 border-b border-primary/40">Actions</th>
                     </tr>
                 </thead>
                 <!-- ส่วนแสดงผลข้อมูลเนื้อในทีได้จาก Arrays (Render container for loops displaying Table body contents) -->
-                <tbody class="divide-y divide-gray-700">
+                <tbody class="divide-y divide-primary/20">
                     <!-- ลูปรายการแต่ละแถวที่ไปดึง Database มาแล้ว (Apply iteration looping over fetched reservation strings) -->
                     <?php foreach($reservations as $r): ?>
                     <!-- เอฟเฟคเมื่อนำเมาส์ไปชี้จะเป็นไฮไลท์แถวให้สว่างกระพริบได้เล็กน้อย (Highlight hover element per row item) -->
-                    <tr class="hover:bg-gray-700/50 transition-colors">
+                    <tr class="hover:bg-white/60 transition-colors">
                         <!-- ID ของการจอง (Booking Index code) -->
-                        <td class="p-4 text-gray-400">#<?php echo $r['reservation_id']; ?></td>
+                        <td class="p-4 text-darker font-bold">#<?php echo $r['reservation_id']; ?></td>
                         <td class="p-4">
                             <!-- ชื่อร้าน/สาขา (Venue Branch text display) -->
-                            <span class="font-bold text-white block"><?php echo htmlspecialchars($r['pub_name']); ?></span>
+                            <span class="font-bold text-darker block"><?php echo htmlspecialchars($r['pub_name']); ?></span>
                             <!-- รหัสโต๊ะ (Seat/Table code rendering field) -->
-                            <span class="text-secondary font-mono text-sm">Table #<?php echo $r['table_number']; ?></span>
+                            <span class="text-secondary font-bold text-sm">Table #<?php echo $r['table_number']; ?></span>
                         </td>
                         <td class="p-4">
                             <!-- ชื่อเจ้าของบัญชีผู้ทำรายการ (Real customer full name printed robust against injections) -->
-                            <span class="font-bold text-white"><?php echo htmlspecialchars($r['full_name']); ?></span>
-                            <br><span class="text-xs text-gray-500">@<?php echo $r['username']; ?></span>
+                            <span class="font-bold text-darker"><?php echo htmlspecialchars($r['full_name']); ?></span>
+                            <br><span class="text-sm text-dark font-medium">@<?php echo $r['username']; ?></span>
                         </td>
                         <!-- วันและเวลาการจอง (Concatenate Date string and cropped short Time string view) -->
-                        <td class="p-4 text-gray-300"><?php echo $r['reservation_date'] . ' <span class="text-gray-500">at</span> ' . substr($r['reservation_time'], 0, 5); ?></td>
+                        <td class="p-4 text-darker font-medium"><?php echo $r['reservation_date'] . ' <span class="text-dark">at</span> ' . substr($r['reservation_time'], 0, 5); ?></td>
                         <!-- จำนวนคนจอง (Aggregated numeric total guest tally rendering output) -->
-                        <td class="p-4 text-gray-300"><?php echo $r['guest_count']; ?></td>
+                        <td class="p-4 text-darker font-bold"><?php echo $r['guest_count']; ?></td>
                         <td class="p-4">
                             <!-- แสดงฉลากที่มีสีแตกต่างกันไปตามสถานะปัจจุบันด้วย match() keyword ของ PHP8+ (Styled dynamically via associative switch match against enum value status mappings) -->
                             <span class="px-2 py-1 rounded text-xs font-bold uppercase
                                 <?php 
-                                    // กำหนดคลาสสีให้แต่ละสถานะโดยใช้ match (Assign distinct tailwind classes correlating logically relative strings matching db status values format rules logic mapping)
                                     echo match($r['status']) {
-                                        'confirmed' => 'bg-green-900 text-green-300',
-                                        'pending' => 'bg-yellow-900 text-yellow-300',
-                                        'cancelled' => 'bg-red-900 text-red-300',
-                                        'completed' => 'bg-blue-900 text-blue-300',
-                                        default => 'bg-gray-700 text-gray-400'
+                                        'confirmed' => 'bg-green-500 text-white',
+                                        'pending' => 'bg-yellow-400 text-white',
+                                        'cancelled' => 'bg-red-500 text-white',
+                                        'completed' => 'bg-blue-500 text-white',
+                                        default => 'bg-gray-500 text-white'
                                     };
                                 ?>">
                                 <!-- พิมพ์สตริงป้ายสถานะด้วยอักษรตัวใหญ่ตัวแรก (Capitalize output status rendering) -->
@@ -141,14 +140,14 @@ $reservations = $stmt->fetchAll();
                                 
                                 <!-- Dropdown สำหรับเลือกสถานะใหม่ จะมี condition check ยุ่งยากนิดหน่อยเพื่อแสดงสถานะล่าสุดเป็นตัวถูก select ก่อน 
                                      (Dropdown box populating preset selections, utilizing inline ternary echo conditional testing checking comparing asserting assigning implicitly checking logically 'selected' boolean properties attributes respectively responsively functionally context ) -->
-                                <select name="status" class="p-1 rounded bg-black border border-gray-600 text-sm focus:border-secondary focus:outline-none">
+                                <select name="status" class="p-1 rounded bg-white text-darker border border-primary/50 text-sm font-medium focus:border-secondary focus:outline-none">
                                     <option value="pending" <?php if($r['status']=='pending') echo 'selected'; ?>>Pending</option>
                                     <option value="confirmed" <?php if($r['status']=='confirmed') echo 'selected'; ?>>Confirm</option>
                                     <option value="cancelled" <?php if($r['status']=='cancelled') echo 'selected'; ?>>Cancel</option>
                                     <option value="completed" <?php if($r['status']=='completed') echo 'selected'; ?>>Complete</option>
                                 </select>
                                 <!-- ปุ่มคำสั่งเซฟลงฐานข้อมูล Submit request Button (Stylized form actionable button rendering mapping bindings functionally seamlessly effectively elegantly contextually assertively coherently natively intuitively dependably responsibly successfully effectively correctly) -->
-                                <button type="submit" class="bg-primary text-black px-3 py-1 rounded text-sm font-bold hover:bg-yellow-400 transition-colors">Update</button>
+                                <button type="submit" class="bg-primary text-white px-3 py-1 rounded text-sm font-bold hover:bg-secondary transition-colors shadow">Update</button>
                             </form>
                         </td>
                     </tr>

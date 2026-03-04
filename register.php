@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 <head>
     <!-- กำหนดชื่อไตเติ้ลเฉพาะบนเว็บเบราว์เซอร์ (Dynamic Page Title) -->
-    <?php $page_title = 'Register - NightOwl Pub'; ?>
+    <?php $page_title = 'Register'; ?>
     <!-- แทรกชุดคำสั่ง Header HTML รวม (Include HTML Head meta data and CSS references) -->
     <?php include 'includes/head.php'; ?>
 </head>
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <nav class="bg-surface border-b border-gray-800 p-4">
         <div class="container mx-auto flex justify-between items-center">
             <!-- ลิงก์ย้อนกลับไปหน้าแรก (Home linkage via logo) -->
-            <a href="index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">NightOwl Pub</a>
+            <a href="index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">MaoHub</a>
             <ul class="flex space-x-6">
                 <!-- ลิงก์กระโดดไปยังหน้าล็อกอินกรณีมีบัญชีอยู่แล้ว (Menu link pointing to Login) -->
                 <li><a href="login.php" class="text-gray-300 hover:text-secondary transition-colors">Login</a></li>
@@ -131,9 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     
-    <!-- เพิ่มสคริปต์ท้ายเว็บเพจ (Appended Footer) -->
-    <footer class="bg-black py-6 text-center text-gray-500 text-sm border-t border-gray-900">
-        &copy; 2026 NightOwl Pub. All rights reserved.
-    </footer>
+    <!-- แทรก Footer template (Include the shared footer template) -->
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>

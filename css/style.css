@@ -6,7 +6,7 @@
     }
 
     .btn:hover {
-        background-color: #e6c200;
+        background-color: theme('colors.secondary');
     }
 
     .btn:disabled {
@@ -23,11 +23,11 @@
 
     /* Map Markers */
     .table-marker {
-        @apply absolute w-10 h-10 rounded-full flex items-center justify-center font-bold text-white cursor-pointer transition-all duration-200 transform -translate-x-1/2 -translate-y-1/2;
+        @apply absolute w-10 h-10 rounded-full flex items-center justify-center font-bold text-white cursor-pointer transition duration-200 transform -translate-x-1/2 -translate-y-1/2;
     }
 
     .table-marker:hover {
-        @apply scale-125 shadow-[0_0_10px_rgba(0, 255, 65, 0.7)];
+        @apply scale-125 shadow-[0_0_10px_rgba(0,255,65,0.7)];
     }
 
     .table-marker.available {
@@ -43,7 +43,7 @@
     }
 
     .table-marker.selected {
-        @apply bg-secondary shadow-[0_0_15px_rgba(0, 255, 65, 0.9)] text-black border-2 border-white;
+        @apply bg-secondary shadow-[0_0_15px_rgba(0,255,65,0.9)] text-white border-2 border-white;
     }
 
     .table-marker.vip {
@@ -67,49 +67,36 @@
 
 @layer utilities {
 
-    /* Fix visibility for hardcoded dark mode classes with the new light palette */
-    .text-white {
-        color: #1a1a1a !important;
-    }
 
-    .text-gray-300 {
-        color: #4b5563 !important;
-    }
-
-    .text-gray-400 {
-        color: #4b5563 !important;
-    }
-
-    .text-gray-500 {
-        color: #6b7280 !important;
-    }
 
     .bg-black {
-        background-color: #ccd6a6 !important;
+        background-color: #f67280 !important;
     }
 
     .bg-gray-800,
     .bg-gray-700 {
-        background-color: #dae2b6 !important;
+        background-color: #c06c84 !important;
     }
 
     .border-gray-800,
     .border-gray-700,
     .border-gray-600 {
-        border-color: #ccd6a6 !important;
+        border-color: #f67280 !important;
     }
 
     /* Interactive element text adjustment */
     .btn {
-        color: #fffbe9 !important;
+        color: #ffffff !important;
     }
 
     .btn:hover {
-        background-color: #dae2b6 !important;
-        color: #1a1a1a !important;
+        background-color: #c06c84 !important;
+        color: #fff !important;
     }
 
     .input-field {
-        color: #1a1a1a !important;
+        background-color: #ffe4e6 !important; /* Pastel pink background */
+        color: #35477d !important; /* Make sure the text is dark to read on pink */
+        border-color: #f67280 !important; /* Pinker border */
     }
 }

@@ -51,7 +51,7 @@ checkLogin();
     <nav class="bg-surface border-b border-gray-800 p-4">
         <div class="container mx-auto flex justify-between items-center">
             <a href="index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">
-                <span class="text-sm text-gray-400 font-normal block -mb-1">Booking at</span>
+                <span class="text-sm text-gray-400 font-normal block -mb-1 text-white">Booking at</span>
                 <?php echo htmlspecialchars($pub['pub_name']); // แสดงชื่อสาขา (Show current pub name) ?>
             </a>
             <div class="space-x-4">
@@ -65,8 +65,8 @@ checkLogin();
     <div class="container mx-auto px-4 py-6 flex-grow flex flex-col h-full">
         <div class="flex flex-col md:flex-row gap-6 h-full flex-grow">
             <!-- แถบควบคุมด้านข้างสำหรับกรอกรายละเอียดจอง (Sidebar Controls for reservation details) -->
-            <div class="w-full md:w-1/3 lg:w-1/4 bg-surface p-6 rounded-lg border border-gray-800 flex flex-col shadow-lg">
-                <h2 class="text-xl font-bold text-secondary mb-4 border-b border-gray-700 pb-2">Reservation Details</h2>
+            <div class="w-full md:w-1/3 lg:w-1/4 bg-[#fdf8f5] p-6 rounded-lg border border-[#f67280] flex flex-col shadow-lg">
+                <h2 class="text-xl font-bold text-[#f67280] mb-4 border-b border-[#f67280] pb-2">Reservation Details</h2>
 
                 <!-- ฟอร์มเพื่อเลือกข้อมูลวัน เวลา และจำนวนคน (Form grouping input criteria) -->
                 <form id="bookingForm" action="payment.php" method="GET" class="space-y-4 flex-grow">
@@ -74,17 +74,17 @@ checkLogin();
                     <input type="hidden" name="pub_id" value="<?php echo $pub_id; ?>">
                     
                     <div>
-                        <label class="block text-gray-400 text-sm mb-1">Date</label>
+                        <label class="block text-[#35477d] font-bold text-sm mb-1">Date</label>
                         <!-- ช่องเลือกวันที่ (Date picker) -->
                         <input type="date" id="date" name="date" class="input-field" required>
                     </div>
                     <div>
-                        <label class="block text-gray-400 text-sm mb-1">Time</label>
+                        <label class="block text-[#35477d] font-bold text-sm mb-1">Time</label>
                         <!-- ช่องเลือกเวลา (Time picker) -->
                         <input type="time" id="time" name="time" class="input-field" required>
                     </div>
                     <div>
-                        <label class="block text-gray-400 text-sm mb-1">Guests</label>
+                        <label class="block text-[#35477d] font-bold text-sm mb-1">Guests</label>
                         <!-- ช่องกรอกจำนวนคน รองรับ 1-20 คน (Guests count input) -->
                         <input type="number" id="guests" name="guests" class="input-field" min="1" max="20" required>
                     </div>
@@ -96,9 +96,9 @@ checkLogin();
 
                     <!-- พื้นที่แสดงข้อมูลเมื่อผู้ใช้คลืกเลือกโต๊ะจากแผนผัง (Selection info container, initially hidden) -->
                     <div id="selectionInfo" class="hidden animate-fade-in">
-                        <p class="text-gray-400 text-sm">Selected Table:</p>
+                        <p class="text-[#f67280] font-bold text-sm">Selected Table:</p>
                         <!-- ข้อความแสดงการคลิกเลือก (Selected table display text) -->
-                        <p class="text-2xl font-bold text-primary mb-2" id="selectedTableDisplay">--</p>
+                        <p class="text-2xl font-bold text-[#35477d] mb-2" id="selectedTableDisplay">--</p>
                         <!-- รหัสโต๊ะที่จะถูกระบุค่าด้วย Javascript เมื่อถูกคลิกเลือก (Hidden table ID set via JS) -->
                         <input type="hidden" id="table_id" name="table_id">
                         
@@ -109,11 +109,12 @@ checkLogin();
             </div>
 
             <!-- กล่องแสดงแผนผังร้านอาหาร/ผับ (Map Container area) -->
-            <div class="w-full md:w-2/3 lg:w-3/4 bg-black/50 rounded-lg border-2 border-gray-800 relative overflow-hidden shadow-inner flex-grow min-h-[500px]" id="mapContainer">
-                <div class="stage-marker">STAGE</div>
+            <div class="w-full md:w-2/3 lg:w-3/4 bg-[#fffbfa] rounded-lg border-2 border-[#f67280] relative overflow-hidden shadow-inner flex-grow min-h-[500px]" id="mapContainer">
+                <!-- สเตจที่มีการเปลี่ยนพื้นหลังเป็นสีเบจ (Stage marker with beige background) -->
+                <div class="stage-marker !bg-[#f67280] !text-[#fdf8f5] !border-[#f67280]">STAGE</div>
                 
                 <!-- กล่องอธิบายสีโต๊ะที่มุมซ้ายบนของกระดาน (Legend toolbox indicating table statuses) -->
-                <div class="absolute top-4 left-4 bg-black/70 p-2 rounded text-xs text-gray-300 pointer-events-none z-10 border border-gray-700">
+                <div class="absolute top-4 left-4 bg-white/90 p-2 rounded text-xs text-[#35477d] font-bold pointer-events-none z-10 border border-[#f67280] shadow">
                     <div class="flex items-center gap-2 mb-1"><span class="w-3 h-3 rounded-full bg-green-500"></span> Available</div>
                     <div class="flex items-center gap-2 mb-1"><span class="w-3 h-3 rounded-full bg-red-500"></span> Reserved</div>
                     <div class="flex items-center gap-2 mb-1"><span class="w-3 h-3 rounded-full bg-gray-500"></span> Incompatible</div>
@@ -121,16 +122,12 @@ checkLogin();
                 </div>
                 <!-- Tables will be injected here via JS -->
                 <!-- เลเยอร์ที่ไว้เรียงไอค่อนโต๊ะที่สร้างจาก JS (Layer where JS will dynamically mount tables) -->
-                <div id="tablesLayer" class="w-full h-full relative"></div>
+                <div id="tablesLayer" class="w-full h-full relative text-white"></div>
             </div>
         </div>
     </div>
     
     <!-- ดึงไฟล์ javascript ไปใช้ โดยพ่วง Parameter Time เพื่อบังคับไม่ให้บราวเซอร์แคช (Include JS logic with cache-buster) -->
     <script src="js/reservation.js?v=<?php echo time(); ?>"></script>
-    <!-- ส่วนท้ายสุดของของหน้าเว็บ (Footer) -->
-    <footer class="bg-black py-6 text-center text-gray-500 text-sm border-t border-gray-900">
-        &copy; 2026 NightOwl Pub. All rights reserved.
-    </footer>
-</body>
-</html>
+    <!-- แทรก Footer template (Include the shared footer template) -->
+    <?php include 'includes/footer.php'; ?>

@@ -30,7 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $amount = $_POST['amount']; // จำนวนเงินโอน (Total deposit amount)
     $method = $_POST['payment_method']; // วิธีชำระเงิน (Chosen payment method)
     
-    try {
+    if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+        // Prevent admin accounts from inserting into reservations since admin_id doesn't exist in users table
+        $error_msg = "Administrators cannot book tables. Please login with a regular customer account.";
+    } else {
+        try {
         // เริ่มคำสั่ง Transaction เพื่อให้แน่ใจว่าถ้าผิดพลาดจะทำการ Rollback ข้อมูลกลับคืน 
         // Begin PDO Transaction to ensure data integrity across multiple tables
         $pdo->beginTransaction();
@@ -73,12 +77,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_msg = "Booking Failed: " . $e->getMessage();
     }
 }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- กำหนด Title ของหน้ายืนยันการทำรายการจอง (Set static page title for Booking Status) -->
-    <?php $page_title = 'Booking Status - NightOwl Pub'; ?>
+    <?php $page_title = 'Booking Status'; ?>
     <!-- ดึงปลั๊กอินและสไตล์ชึต (Include generic HTML Head elements) -->
     <?php include 'includes/head.php'; ?>
 </head>
@@ -116,9 +121,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
     </div>
     
-    <!-- เครดิตลิขสิทธิ์จางๆ ด้านล่างสุด (Small footer text at the bottom) -->
-    <div class="mt-8 text-gray-600 text-sm">
-        &copy; 2026 NightOwl Pub
-    </div>
-</body>
-</html>
+    <!-- แทรก Footer template (Include the shared footer template) -->
+    <?php include 'includes/footer.php'; ?>

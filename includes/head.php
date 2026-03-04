@@ -6,7 +6,7 @@
 <!-- ทำให้เว็บไซต์พอดีกับขนาดหน้าจอมือถือ (Responsive design viewport configuration) -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- ดึง Title หรือชื่อเว็บแท็บที่กำหนดมาจากไฟล์ต้นทาง (Dynamically inject page title if set, else use default) -->
-<title><?php echo isset($page_title) ? $page_title : 'NightOwl Pub'; ?></title>
+<title><?php echo (isset($page_title) ? $page_title : 'Welcome') . ' - MaoHub'; ?></title>
 
 <!-- ดึงสคริปต์ของ TailwindCSS มาช่วยให้สามารถเขียน CSS ด้วย Class ได้เร็ว (Load Tailwind CSS from CDN for utility-first styling) -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -18,12 +18,33 @@
             // ส่วนที่เสริมเพิ่มเติมเข้าไปนอกจากค่าเริ่มต้นของเทลวินด์ (Extend default theme settings)
             extend: {
                 colors: {
-                    primary: '#ccd6a6',   
-                    secondary: '#dae2b6', 
-                    dark: '#f4ead5',      
-                    darker: '#fffbe9',    
-                    surface: '#f4ead5',   
-                    error: '#ff4444'      
+                    primary: '#f67280',   
+                    secondary: '#c06c84', 
+                    dark: '#6c5b7b',      
+                    darker: '#35477d',    
+                    surface: '#6c5b7b',   
+                    error: '#ffb3ba',
+                    green: {
+                        400: '#b5e7a0',
+                        500: '#96ceb4',
+                        600: '#78a691',
+                    },
+                    red: {
+                        500: '#ffb3ba',
+                        600: '#ff9caa',
+                        700: '#ff8599',
+                    },
+                    blue: {
+                        500: '#bae1ff',
+                        600: '#a1c9f1',
+                    },
+                    purple: {
+                        500: '#e2caf8',
+                        600: '#cfa2ef',
+                    },
+                    yellow: {
+                        400: '#ffdfba',
+                    }
                 },
                 fontFamily: {
                     sans: ['Inter', 'sans-serif'],

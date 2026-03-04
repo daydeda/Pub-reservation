@@ -46,7 +46,7 @@ if ($table['type'] == 'vip') $total_price *= 1.5;
 <html lang="en">
 <head>
     <!-- กำหนด Title เฉพาะหน้า (Set specific page title) -->
-    <?php $page_title = 'Payment - NightOwl Pub'; ?>
+    <?php $page_title = 'Payment'; ?>
     <!-- ดึงข้อมูล head แบบรวมมิตร (Included standard HTML Head definition) -->
     <?php include 'includes/head.php'; ?>
 </head>
@@ -55,19 +55,19 @@ if ($table['type'] == 'vip') $total_price *= 1.5;
     <nav class="bg-surface border-b border-gray-800 p-4">
         <div class="container mx-auto flex justify-between items-center">
             <!-- โลโก้เว็บไซต์ (Website Logo / Title linkage) -->
-            <a href="index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">NightOwl Pub</a>
+            <a href="index.php" class="text-2xl font-bold text-primary tracking-wider hover:text-white transition-colors">MaoHub</a>
         </div>
     </nav>
     
     <!-- กรอบหลักสำหรับหน้าการชำระเงิน (Main Payment container wrapper) -->
     <div class="container mx-auto px-4 py-8 flex-grow max-w-2xl">
-        <h1 class="text-3xl font-bold text-center mb-8 text-primary">Confirm & Pay</h1>
+        <h1 class="text-3xl font-bold text-center mb-8 text-[#fdf8f5]">Confirm & Pay</h1>
         
         <!-- ส่วนสรุปรายการจองของลูกค้า (Reservation summary box) -->
-        <div class="bg-surface p-6 rounded-lg border border-primary/30 shadow-lg mb-8">
-            <h3 class="text-xl font-bold text-white mb-4 border-b border-gray-700 pb-2">Reservation Summary</h3>
+        <div class="bg-[#fdf8f5] p-6 rounded-lg border border-primary/30 shadow-lg mb-8">
+            <h3 class="text-xl font-bold text-primary mb-4 border-b border-gray-700 pb-2">Reservation Summary</h3>
             <!-- ข้อมูลที่รับมาแสดงเป็นตารางกริด (Grid display of reservation details) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-[#F37199]">
                 <p><strong class="text-gray-500">Date:</strong> <?php echo $date; ?></p>
                 <p><strong class="text-gray-500">Time:</strong> <?php echo $time; ?></p>
                 <p><strong class="text-gray-500">Guests:</strong> <?php echo $guests; ?></p>
@@ -79,7 +79,7 @@ if ($table['type'] == 'vip') $total_price *= 1.5;
             <!-- เส้นคั่นบาง (Horizontal Separator) -->
             <hr class="border-gray-700 my-4">
             <!-- แสดงยอดเงินรวมที่ต้องชำระ (Show final total price for the deposit) -->
-            <p class="text-2xl text-secondary font-bold text-center">Total Deposit: ฿<?php echo number_format($total_price, 2); ?></p>
+            <p class="text-2xl text-primary font-bold text-center">Total Deposit: ฿<?php echo number_format($total_price, 2); ?></p>
         </div>
         
         <!-- ฟอร์มที่จะเรียกเมื่อกดปุ่มชำระเงิน (Form that posts data to complete_reservation) -->
@@ -97,19 +97,19 @@ if ($table['type'] == 'vip') $total_price *= 1.5;
             <!-- ตัวเลือกในการชำระเงิน (A Grid featuring cards for different payment options) -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                 <!-- ทางเลือก 1: บัตร ATM ข้อมูลจะส่งว่า ATM ไปที่ JS (Option 1: ATM) -->
-                <div class="method-card bg-surface border-2 border-gray-700 p-4 rounded-lg text-center cursor-pointer transition-all hover:border-secondary hover:bg-gray-800 flex flex-col items-center justify-center h-32 group" onclick="selectMethod(this, 'atm')">
+                <div class="method-card bg-[#fdf8f5] border-2 border-gray-700 p-4 rounded-lg text-center cursor-pointer transition-all hover:border-secondary hover:bg-gray-800 flex flex-col items-center justify-center h-32 group" onclick="selectMethod(this, 'atm')">
                     <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">💳</div>
-                    <div class="font-semibold text-gray-300 group-hover:text-white">ATM / Debit</div>
+                    <div class="font-semibold text-gray-600 group-hover:text-white">ATM / Debit</div>
                 </div>
                 <!-- ทางเลือก 2: จ่ายคิวอาร์ (Option 2: QR Code) -->
-                <div class="method-card bg-surface border-2 border-gray-700 p-4 rounded-lg text-center cursor-pointer transition-all hover:border-secondary hover:bg-gray-800 flex flex-col items-center justify-center h-32 group" onclick="selectMethod(this, 'qrcode')">
+                <div class="method-card bg-[#fdf8f5] border-2 border-gray-700 p-4 rounded-lg text-center cursor-pointer transition-all hover:border-secondary hover:bg-gray-800 flex flex-col items-center justify-center h-32 group" onclick="selectMethod(this, 'qrcode')">
                     <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">📱</div>
-                    <div class="font-semibold text-gray-300 group-hover:text-white">QR Code</div>
+                    <div class="font-semibold text-gray-600 group-hover:text-white">QR Code</div>
                 </div>
                 <!-- ทางเลือก 3: แอปบัญชีธนาคาร (Option 3: Mobile Banking Application) -->
-                <div class="method-card bg-surface border-2 border-gray-700 p-4 rounded-lg text-center cursor-pointer transition-all hover:border-secondary hover:bg-gray-800 flex flex-col items-center justify-center h-32 group" onclick="selectMethod(this, 'mobile_banking')">
+                <div class="method-card bg-[#fdf8f5] border-2 border-gray-700 p-4 rounded-lg text-center cursor-pointer transition-all hover:border-secondary hover:bg-gray-800 flex flex-col items-center justify-center h-32 group" onclick="selectMethod(this, 'mobile_banking')">
                     <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">🏦</div>
-                    <div class="font-semibold text-gray-300 group-hover:text-white">Mobile Banking</div>
+                    <div class="font-semibold text-gray-600 group-hover:text-white">Mobile Banking</div>
                 </div>
             </div>
             
@@ -140,9 +140,5 @@ if ($table['type'] == 'vip') $total_price *= 1.5;
             document.getElementById('payBtn').disabled = false;
         }
     </script>
-    <!-- ส่วนของ Footer เว็บไซต์ (Website Footer area) -->
-    <footer class="bg-black py-6 text-center text-gray-500 text-sm border-t border-gray-900 mt-auto">
-        &copy; 2026 NightOwl Pub. All rights reserved.
-    </footer>
-</body>
-</html>
+    <!-- แทรก Footer template (Include the shared footer template) -->
+    <?php include 'includes/footer.php'; ?>
