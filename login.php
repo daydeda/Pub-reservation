@@ -56,12 +56,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // ถ้ารหัสผ่านลูกค้าถูกต้อง (If standard user exists and password is correct)
         if ($user && $password === $user['user_password']) {
-            $_SESSION['user_id'] = $user['user_id']; // บันทึกไอดี (Save User ID in session)
-            $_SESSION['role'] = 'general'; // กำหนดระดับสิทธิ์ลูกค้าทั่วไป Default role for users table
-            $_SESSION['username'] = $user['username']; // บันทึกชื่อ (Save username in session)
-            // ดึงผู้ใช้งานเข้าหน้าต่างเว็บไซต์หน้าแรก (Redirect regular user to the homepage)
-            header("Location: index.php"); 
-            exit();
+            if ($user['status'] === 'pending') {
+                $message = "Your account is pending approval by an admin.";
+                $msg_class = "error";
+            } elseif ($user['status'] === 'rejected') {
+                $message = "Your registration has been rejected.";
+                $msg_class = "error";
+            } else {
+                $_SESSION['user_id'] = $user['user_id']; // บันทึกไอดี (Save User ID in session)
+                $_SESSION['role'] = 'general'; // กำหนดระดับสิทธิ์ลูกค้าทั่วไป Default role for users table
+                $_SESSION['username'] = $user['username']; // บันทึกชื่อ (Save username in session)
+                // ดึงผู้ใช้งานเข้าหน้าต่างเว็บไซต์หน้าแรก (Redirect regular user to the homepage)
+                header("Location: index.php"); 
+                exit();
+            }
         } else {
             // ถ้ารหัสผ่านผิดหรือไม่พบผู้ใช้งาน (Handle incorrect credentials)
             $message = "Invalid username or password."; // แจ้งว่ารหัสผ่านผิด (Show error message)

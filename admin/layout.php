@@ -108,6 +108,7 @@ $page_title = 'Table Layout - ' . htmlspecialchars($pub['pub_name']);
             <ul class="flex space-x-6">
                 <li><a href="index.php" class="text-gray-300 hover:text-white transition-colors">Reservations</a></li>
                 <li><a href="pubs.php" class="text-secondary font-bold transition-colors">Pubs</a></li>
+                <li><a href="users.php" class="text-gray-300 hover:text-secondary transition-colors">Users</a></li>
                 <li><a href="../index.php" class="text-gray-300 hover:text-secondary transition-colors">View Site</a></li>
                 <li><a href="../logout.php" class="text-gray-300 hover:text-error transition-colors">Logout</a></li>
             </ul>

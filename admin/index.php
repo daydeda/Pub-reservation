@@ -62,6 +62,8 @@ $reservations = $stmt->fetchAll();
                 <li><a href="index.php" class="text-secondary font-bold transition-colors">Reservations</a></li>
                 <!-- ลิงก์ไปหน้าร้าน pub (Link pointing towards Pubs administration page) -->
                 <li><a href="pubs.php" class="text-gray-300 hover:text-secondary transition-colors">Pubs</a></li>
+                <!-- ลิงก์ไปหน้าจัดการผู้ใช้ -->
+                <li><a href="users.php" class="text-gray-300 hover:text-secondary transition-colors">Users</a></li>
                 <!-- กลับไปหน้าหลักของลูกค้า (Link to visit user-facing front-end pages) -->
                 <li><a href="../index.php" class="text-gray-300 hover:text-secondary transition-colors">View Site</a></li>
                 <!-- ปุ่ม Logout (Universal Logout path resolver element) -->

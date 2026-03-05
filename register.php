@@ -12,44 +12,56 @@ $message = '';
 
 // ตรวจสอบว่าผู้ใช้กดส่งแบบฟอร์มด้วยวิธี POST มาหรือไม่ (Check if the registration form was submitted via POST method)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // รับค่าและเว้นวรรคช่องว่างซ้ายขวาออก (Retrieve POST values and trim whitespace)
-    $username = trim($_POST['username']); // ค่าชื่อผู้ใช้ (Username)
-    $email = trim($_POST['email']); // ค่าอีเมล (Email)
-    $password = $_POST['password']; // รหัสผ่าน (Password)
-    $full_name = trim($_POST['full_name']); // ชื่อ-นามสกุลจริง (Full name)
-    $phone = trim($_POST['phone']); // เบอร์โทรศัพท์ (Phone number)
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
+    $full_name = trim($_POST['full_name']);
+    $phone = trim($_POST['phone']);
+    $dob = trim($_POST['dob']);
 
-    // ตรวจสอบว่ากรอกข้อมูลจำเป็นครบถ้วนหรือไม่ (Check if any required fields are missing)
-    if (empty($username) || empty($email) || empty($password) || empty($full_name)) {
-        // หากขาดฟิลด์ใดไป ให้ขึ้นข้อความแจ้งเตือน (If required fields are missing, display error)
-        $message = "Please fill in all required fields.";
+    if (empty($username) || empty($email) || empty($password) || empty($full_name) || empty($phone) || empty($dob) || empty($_FILES['id_card']['name'])) {
+        $message = "Please fill in all required fields and upload your ID Card.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $message = "Invalid email format.";
+    } elseif (!preg_match('/^0[689]\d{8}$/', $phone)) {
+        $message = "Phone number must be a valid Thai format starting with 06, 08, or 09.";
     } else {
-        // ---- Check if exists in users or admins ----
-        // 1. ตรวจสอบว่าชื่อผู้ใช้หรืออีเมลนี้มีคนใช้งานไปแล้วหรือยัง (Verify if username or email already exists in DB)
-        // โดยเช็คทั้งจากตารางลูกค้า (users) และผู้ดูแลระบบ (admins) (Checking across both users and admins tables using UNION)
         $stmt = $pdo->prepare("SELECT username FROM users WHERE username = ? OR email = ? UNION SELECT ad_username FROM admins WHERE ad_username = ?");
-        // สั่งประมวลผลคำสั่ง SQL โดยส่งค่าพารามิเตอร์ 3 ตัว (Execute query binding the 3 placeholders)
         $stmt->execute([$username, $email, $username]);
         
-        // ถ้านับแถวที่ค้นเจอแล้วพบรายการมากกว่า 0 แสดงว่าซ้ำซ้อน (If row count > 0, it means the username/email is taken)
         if ($stmt->rowCount() > 0) {
-            $message = "Username or Email already exists."; // ตั้งค่าข้อความแจ้งเตือนว่าอีเมลหรือชื่อผู้ใช้ซ้ำ (Set error message)
+            $message = "Username or Email already exists.";
         } else {
-            // ---- ดำเนินการเพิ่มผู้ใช้งานลงระบบ ----
-            // 2. ถ้าไม่ซ้ำ ก็ทำการเตรียม SQL สำหรับเพิ่มข้อมูลลงตาราง users (Prepare SQL query to INSERT new user)
-            $sql = "INSERT INTO users (username, email, user_password, full_name, phone_number) VALUES (?, ?, ?, ?, ?)";
-            $stmt = $pdo->prepare($sql);
+            // Handle file upload
+            $upload_dir = 'uploads/id_cards/';
+            // Ensure directory exists
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+            $file_ext = strtolower(pathinfo($_FILES['id_card']['name'], PATHINFO_EXTENSION));
+            $allowed_exts = ['jpg', 'jpeg', 'png', 'pdf'];
             
-            // หากระบบสั่งรันคำสั่ง SQL สร้างข้อมูลได้สำเร็จ (Execute query, if successful proceed inside)
-            if ($stmt->execute([$username, $email, $password, $full_name, $phone])) {
-                // เก็บข้อความสำเร็จไว้ใน Session เพื่อดึงไปแสดงในหน้า login.php (Store success string in session to be flash-displayed on login page)
-                $_SESSION['success_msg'] = "Registration successful! Please login.";
-                // นำทางผู้ใช้กลับไปที่หน้าล็อกอิน (Redirect the user to the login page)
-                header("Location: login.php");
-                exit(); // หยุดการทงานส่วนด้านล่างหลังจากเปลี่ยนหน้า (Terminate script post-redirect)
+            if (!in_array($file_ext, $allowed_exts)) {
+                $message = "Invalid file type. Only JPG, PNG, and PDF are allowed.";
             } else {
-                // หากเซฟลงฐานข้อมูลแล้วเกิดปัญหาขัดข้องส่วนอื่นๆ (If database insert fails for other reasons)
-                $message = "Registration failed."; // แจ้งเตือนข้อผิดพลาด (Show generic error)
+                $new_filename = uniqid('id_card_') . '.' . $file_ext;
+                $target_file = $upload_dir . $new_filename;
+                
+                if (move_uploaded_file($_FILES['id_card']['tmp_name'], $target_file)) {
+                    $sql = "INSERT INTO users (username, email, user_password, full_name, phone_number, dob, id_card) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    $stmt = $pdo->prepare($sql);
+                    
+                    if ($stmt->execute([$username, $email, $password, $full_name, $phone, $dob, $target_file])) {
+                        $_SESSION['success_msg'] = "Registration successful! Please wait for admin approval.";
+                        header("Location: login.php");
+                        exit();
+                    } else {
+                        $message = "Registration failed.";
+                    }
+                } else {
+                    $upload_err = $_FILES['id_card']['error'];
+                    $message = "Failed to upload ID Card. Error code: " . $upload_err;
+                }
             }
         }
     }
@@ -91,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
             
             <!-- กำหนดฟอร์มข้อมูลชนิด POST เพื่อส่งในหน้าปัจจุบัน (HTML Form configured for POST submission) -->
-            <form method="POST" action="" class="space-y-4">
+            <form method="POST" action="" enctype="multipart/form-data" class="space-y-4">
                 <!-- ตารางแบ่งเป็น 2 คอลัมน์ สำหรับหน้าจอใหญ่ (Grid layout providing 2 columns on medium+ screens) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- ช่องกรอกชื่อผู้ใช้สำหรับเข้าระบบ (Input for Username) -->
@@ -111,9 +123,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="email" name="email" required class="input-field">
                 </div>
                 <!-- ช่องสำหรับเบอร์มือถือ (ตัวเลือกเสริมไม่ต้องกรอก็ได้ถ้ากำหนดไว้) (Input for Phone number, optional) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-600 mb-1">Phone Number</label>
+                        <input type="text" id="phone" name="phone" placeholder="" required class="input-field transition-colors duration-300">
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 mb-1">Date of Birth</label>
+                        <input type="date" name="dob" required class="input-field" max="<?php echo date('Y-m-d', strtotime('-20 years')); ?>">
+                    </div>
+                </div>
                 <div>
-                    <label class="block text-gray-600 mb-1">Phone Number</label>
-                    <input type="text" name="phone" class="input-field">
+                    <label class="block text-gray-600 mb-1">ID Card (JPG, PNG, PDF)</label>
+                    <input type="file" name="id_card" accept=".jpg,.jpeg,.png,.pdf" required class="input-field py-2 text-white">
                 </div>
                 <!-- ช่องกรอกรหัสผ่าน (Input for password credentials) -->
                 <div>
@@ -133,5 +155,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <!-- แทรก Footer template (Include the shared footer template) -->
     <?php include 'includes/footer.php'; ?>
+
+    <!-- Real-time Validation Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('input:not([type="file"])');
+        
+        function validateInput(input) {
+            const value = input.value.trim();
+            let isValid = false;
+            
+            // If empty, remove customized styles
+            if (value === '') {
+                input.style.removeProperty('border-color');
+                input.style.removeProperty('background-color');
+                return;
+            }
+
+            switch(input.name) {
+                case 'username':
+                case 'full_name':
+                case 'password':
+                case 'dob':
+                    isValid = value.length > 0;
+                    break;
+                case 'email':
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    isValid = emailRegex.test(value);
+                    break;
+                case 'phone':
+                    const phoneRegex = /^0[689]\d{8}$/;
+                    isValid = phoneRegex.test(value);
+                    break;
+                default:
+                    isValid = true;
+            }
+
+            if (isValid) {
+                // Set green styles with !important
+                input.style.setProperty('border-color', '#96ceb4', 'important');
+                input.style.setProperty('background-color', '#e8f5e9', 'important');
+            } else {
+                // Set red styles with !important
+                input.style.setProperty('border-color', '#ff8599', 'important');
+                input.style.setProperty('background-color', '#ffebee', 'important');
+            }
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', function() { validateInput(this); });
+            input.addEventListener('blur', function() { validateInput(this); });
+        });
+    });
+    </script>
 </body>
 </html>
