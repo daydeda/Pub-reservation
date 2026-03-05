@@ -44,7 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!in_array($file_ext, $allowed_exts)) {
                 $message = "Invalid file type. Only JPG, PNG, and PDF are allowed.";
             } else {
-                $new_filename = uniqid('id_card_') . '.' . $file_ext;
+                // Sanitize full name for filename: remove accents, replace spaces/special chars with underscores, lower case
+                $sanitized_name = strtolower(preg_replace('/[^a-zA-Z0-9ก-๙]+/', '_', $full_name));
+                $new_filename = $sanitized_name . '_idcard_' . time() . '.' . $file_ext;
                 $target_file = $upload_dir . $new_filename;
                 
                 if (move_uploaded_file($_FILES['id_card']['tmp_name'], $target_file)) {
